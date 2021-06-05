@@ -7,17 +7,22 @@ choice_height=5
 function install_ssh(){
     # install depen
     apt update -y
-    apt install stunnel4 dropbear nano openssl curl cmake make gcc -y
+    apt install dropbear stunnel4 nano openssl curl cmake make gcc -y
     echo "/bin/false" >> /etc/shells
-
-    # install stunnel
-    bash <(curl -Ls https://raw.githubusercontent.com/mboxjem/SSH-Tunnel/main/stunnel/stunnel.sh)
 
     # install dropbear
     bash <(curl -Ls https://raw.githubusercontent.com/mboxjem/SSH-Tunnel/main/dropbear/dropbear.sh)
 
+    # install stunnel
+    bash <(curl -Ls https://raw.githubusercontent.com/mboxjem/SSH-Tunnel/main/stunnel/stunnel.sh)
+
     #install badvpn
     bash <(curl -Ls https://raw.githubusercontent.com/mboxjem/SSH-Tunnel/main/badvpn/badvpn.sh)
+    
+    systemctl restart dropbear.service
+    systemctl restart stunnel4.service
+    systemctl start badvpn.service
+    systemctl enable badvpn.service
 }
 
 function add_user(){
