@@ -11,13 +11,13 @@ function install_ssh(){
     echo "/bin/false" >> /etc/shells
 
     # install stunnel
-    bash <(curl -Ls https://raw.githubusercontent.com/mboxjem/SSH-Tunnel/master/stunnel/stunnel.sh)
+    bash <(curl -Ls https://raw.githubusercontent.com/mboxjem/SSH-Tunnel/main/stunnel/stunnel.sh)
 
     # install dropbear
-    bash <(curl -Ls https://raw.githubusercontent.com/mboxjem/SSH-Tunnel/master/dropbear/dropbear.sh)
+    bash <(curl -Ls https://raw.githubusercontent.com/mboxjem/SSH-Tunnel/main/dropbear/dropbear.sh)
 
     #install badvpn
-    bash <(curl -Ls https://raw.githubusercontent.com/mboxjem/SSH-Tunnel/master/badvpn/badvpn.sh)
+    bash <(curl -Ls https://raw.githubusercontent.com/mboxjem/SSH-Tunnel/main/badvpn/badvpn.sh)
 }
 
 function add_user(){
