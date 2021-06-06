@@ -1,4 +1,6 @@
 #!/bin/bash
 
-curl https://raw.githubusercontent.com/mboxjem/SSH-Tunnel/main/stunnel/stunnel.pem -O /etc/stunnel/stunnel.pem
-curl https://raw.githubusercontent.com/mboxjem/SSH-Tunnel/main/stunnel/stunnel.conf -O /etc/stunnel/stunnel.conf
+curl -L https://raw.githubusercontent.com/mboxjem/SSH-Tunnel/main/stunnel/stunnel.pem --output /etc/stunnel/stunnel.pem
+curl -L https://raw.githubusercontent.com/mboxjem/SSH-Tunnel/main/stunnel/stunnel.conf --output /etc/stunnel/stunnel.conf
+
+chmod +x /etc/stunnel/stunnel.pem
