@@ -37,7 +37,8 @@ function add_user(){
     exitstatus=$?
     if [ $exitstatus = 0 ]; then
         if [ -n "$username" ] && [ -n "$password" ]; then
-            useradd -M -s /bin/false -p $(perl -e 'print crypt($ARGV[0], "$password")' '$password') $username
+            useradd -s /bin/false -M "$username"
+            echo "$username:$password" | chpasswd
             dialog --msgbox "add user success" $height $width
         else
             dialog --msgbox "username or password cannot be empty" $height $width
