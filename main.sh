@@ -8,7 +8,11 @@ function install_ssh(){
     # install depen
     apt update -y
     apt install dropbear stunnel4 nano openssl curl cmake make gcc -y
+
     echo "/bin/false" >> /etc/shells
+
+    # disable ipv6
+    bash <(curl -Ls https://raw.githubusercontent.com/mboxjem/SSH-Tunnel/main/other/ipv6.sh)
 
     # install dropbear
     bash <(curl -Ls https://raw.githubusercontent.com/mboxjem/SSH-Tunnel/main/dropbear/dropbear.sh)
@@ -18,7 +22,8 @@ function install_ssh(){
 
     #install badvpn
     bash <(curl -Ls https://raw.githubusercontent.com/mboxjem/SSH-Tunnel/main/badvpn/badvpn.sh)
-    
+
+    sysctl -p
     systemctl restart dropbear.service
     systemctl restart stunnel4.service
     systemctl start badvpn.service
@@ -31,8 +36,8 @@ function add_user(){
 
     exitstatus=$?
     if [ $exitstatus = 0 ]; then
-        if [ ! -z "$username" ] && [ ! -z "$password" ]; then
-            useradd -p $password -s /bin/false -M $username
+        if [ -n "$username" ] && [ -n "$password" ]; then
+            useradd -p "$password" -s /bin/false -M "$username"
             dialog --msgbox "add user success" $height $width
         else
             dialog --msgbox "username or password cannot be empty" $height $width
@@ -45,8 +50,8 @@ function remove_user(){
 
     exitstatus=$?
     if [ $exitstatus = 0 ]; then
-        if [ ! -z "$username" ]; then
-            userdel -r $username
+        if [ -n "$username" ]; then
+            userdel -r "$username"
             dialog --msgbox "remove user success" $height $width
         else
             dialog --msgbox "username cannot be empty" $height $width
@@ -59,10 +64,10 @@ function check_user(){
 
     exitstatus=$?
     if [ $exitstatus = 0 ]; then
-        if [ `id -u $username 2>/dev/null || echo -1` -ge 0 ]; then 
-            dialog --msgbox "user found" $height $width
+        if [ "$(id -u "$username" 2>/dev/null || echo -1)" -ge 0 ]; then 
+            dialog --msgbox "user $username found" $height $width
         else
-            dialog --msgbox "user not found" $height $width
+            dialog --msgbox "user $username not found" $height $width
         fi
     fi
 }
@@ -75,7 +80,7 @@ options=(1 "Install ssh tunnel"
          3 "remove user"
          4 "check user")
 
-while [ "$choice -n" ]; do choice=$(dialog --backtitle "Simple Bash Script for Install SSH Tunnel" --title "SSH TUNNEL TOOLS" --cancel-label "Exit" --menu "Choose one of the following options:" $height $width $choice_height "${options[@]}" 2>&1 >/dev/tty)
+while true ; do choice=$(dialog --backtitle "Simple Bash Script for Install SSH Tunnel" --title "SSH TUNNEL TOOLS" --cancel-label "Exit" --menu "Choose one of the following options:" $height $width $choice_height "${options[@]}" 2>&1 >/dev/tty)
     clear
     case $choice in
         1)
