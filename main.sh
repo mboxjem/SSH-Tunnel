@@ -31,7 +31,17 @@ function install_ssh(){
 }
 
 function install_addons(){
-    
+    # l2tp
+    bash <(curl -Ls https://raw.githubusercontent.com/mboxjem/SSH-Tunnel/main/addons/l2tp.sh)
+
+    # speedtest
+    bash <(curl -Ls https://raw.githubusercontent.com/mboxjem/SSH-Tunnel/main/addons/speedtest.sh)
+
+    # v2ui
+    bash <(curl -Ls https://raw.githubusercontent.com/mboxjem/SSH-Tunnel/main/addons/v2ui.sh)
+
+    # webmin
+    bash <(curl -Ls https://raw.githubusercontent.com/mboxjem/SSH-Tunnel/main/addons/webmin.sh)
 }
 
 function add_user(){
