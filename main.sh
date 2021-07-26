@@ -6,7 +6,7 @@ choice_height=5
 
 function install_ssh(){
     # install depen
-    apt update -y
+    apt update; apt upgrade -y
     apt install dropbear stunnel4 nano openssl curl cmake make gcc -y
 
     echo "/bin/false" >> /etc/shells
@@ -28,6 +28,10 @@ function install_ssh(){
     systemctl restart stunnel4.service
     systemctl start badvpn.service
     systemctl enable badvpn.service
+}
+
+function install_addons(){
+    
 }
 
 function add_user(){
@@ -77,9 +81,10 @@ dialog --backtitle "Caution" --title "Caution" --clear --msgbox "I am not respon
 clear
 
 options=(1 "Install ssh tunnel"
-         2 "Add user"
-         3 "remove user"
-         4 "check user")
+         2 "Install Addons"
+         3 "Add user"
+         4 "remove user"
+         5 "check user")
 
 while true ; do choice=$(dialog --backtitle "Simple Bash Script for Install SSH Tunnel" --title "SSH TUNNEL TOOLS" --cancel-label "Exit" --menu "Choose one of the following options:" $height $width $choice_height "${options[@]}" 2>&1 >/dev/tty)
     clear
@@ -88,12 +93,15 @@ while true ; do choice=$(dialog --backtitle "Simple Bash Script for Install SSH 
             install_ssh 2>&1 | dialog --programbox $height $width
         ;;
         2)
-            add_user
+            install_addons
         ;;
         3)
-            remove_user
+            add_user
         ;;
         4)
+            remove_user
+        ;;
+        5)
             check_user
         ;;
         *)
